@@ -1,0 +1,5 @@
+":not(.darwin) > .workspace":
+  "ctrl-shift-O": "recent-projects:open"
+
+".darwin > .workspace":
+  "cmd-shift-O": "recent-projects:open"

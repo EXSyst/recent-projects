@@ -1,0 +1,24 @@
+{
+  "name": "recent-projects",
+  "version": "0.1.0",
+  "main": "./lib/main",
+  "description": "Quick access to your recently opened projects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Exter-N/recent-projects"
+  },
+  "engines": {
+    "atom": "*"
+  },
+  "author": {
+    "name": "Exter-N",
+    "email": "exter-n@exter-n.fr",
+    "url": "http://exter-n.fr/"
+  },
+  "bugs": {
+    "url": "https://github.com/Exter-N/recent-projects/issues"
+  },
+  "homepage": "https://github.com/Exter-N/recent-projects",
+  "license": "Apache-2.0",
+  "readmeFile": "README.md"
+}

@@ -1,0 +1,116 @@
+@import "octicon-mixins";
+@import "ui-variables";
+
+@text-color: #333;
+@text-color-subtle: #666;
+
+.recent-projects-view {
+
+    .actions-bar {
+        text-align: right;
+        height: 27px;
+        margin-bottom: 10px;
+        > * {
+            margin-left: 10px;
+        }
+    }
+
+    .btn-default,
+    .btn-group > .btn-default {
+        background-color: #fff;
+        color: @text-color;
+        border: 1px solid #ccc;
+
+        &:hover {
+            color: @text-color;
+            background-color: #ddd;
+        }
+    }
+
+    .project-list {
+        margin: 0;
+        padding: 0;
+        margin-right: -10px;
+        height: calc(~"100% - 37px");
+        overflow-y: auto;
+    }
+
+    .project-entry {
+        position: relative;
+        display: inline-block;
+        width: calc(~"25% - 10px");
+        height: 200px;
+        padding: 0;
+        &::before {
+            line-height: 200px;
+            font-size: 160px;
+            width: 160px;
+            height: 200px;
+            margin-right: 0;
+            color: #000;
+        }
+        margin-right: 10px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .project-meta {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.7);
+        text-align: left;
+        padding: 2px 10px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .project-title {
+        font-size: 150%;
+        &::after {
+            content: '';
+            display: block;
+            height: 0;
+            width: 0;
+            overflow: hidden;
+        }
+    }
+
+    .project-title, .project-url {
+        display: inline;
+    }
+
+    .project-delete {
+        width: 27px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        padding: 0;
+        display: none;
+        &::before {
+            margin-right: 0;
+        }
+    }
+
+    .project-entry:hover .project-delete {
+        display: block;
+    }
+
+    .btn-danger {
+        color: #FFF;
+        background-color: #D9534F;
+        border-color: #D43F3A;
+    }
+
+    .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active {
+        color: #FFF;
+        background-color: #C9302C;
+        border-color: #AC2925;
+    }
+
+}
