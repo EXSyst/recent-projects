@@ -21,6 +21,9 @@ closeDefaultBuffer = ->
         sub = null
 
 module.exports =
+    configDefaults:
+        textOnly: false
+
     activate: ->
         atom.workspace.registerOpener (filePath) =>
             createView() if filePath is projectsHomepageUri

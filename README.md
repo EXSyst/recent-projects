@@ -34,3 +34,5 @@ You can open it at any time using the command `recent-projects:open` (`ctrl-shif
 Customization
 -------------
 You can put a PNG image named `.project-tile.png` at a project's root, and the package will display it instead of the default icon.
+
+There is a setting if you prefer a text-only list.

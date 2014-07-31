@@ -113,4 +113,28 @@
         border-color: #AC2925;
     }
 
+    .project-list.text-only {
+
+        .project-entry {
+            width: calc(~"50% - 10px");
+            height: auto;
+            background-image: none !important;
+            &::before {
+                content: none;
+            }
+        }
+
+        .project-meta {
+            position: static;
+            background: transparent;
+            color: inherit;
+        }
+
+        .project-delete {
+            top: calc(~"50% - 13.5px");
+            right: 15.5px;
+        }
+
+    }
+
 }

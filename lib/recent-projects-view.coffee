@@ -31,6 +31,11 @@ class RecentProjectsView extends ScrollView
 
     initialize: ({ @uri }) ->
         super
+        @subscribe atom.config.observe 'recent-projects.textOnly', (textOnly) =>
+            if textOnly
+                @projectList.addClass 'text-only'
+            else
+                @projectList.removeClass 'text-only'
         @openFolderButton.on 'click', =>
             remote ?= require 'remote'
             dialog ?= remote.require 'dialog'
