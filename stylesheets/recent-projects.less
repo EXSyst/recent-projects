@@ -1,9 +1,6 @@
 @import "octicon-mixins";
 @import "ui-variables";
 
-@text-color: #333;
-@text-color-subtle: #666;
-
 .recent-projects-view {
 
     .actions-bar {
@@ -17,13 +14,13 @@
 
     .btn-default,
     .btn-group > .btn-default {
-        background-color: #fff;
-        color: @text-color;
-        border: 1px solid #ccc;
+        background-color: @button-background-color;
+        color: @button-text-color;
+        border: 1px solid @button-border-color;
 
         &:hover {
-            color: @text-color;
-            background-color: #ddd;
+            color: @button-text-color;
+            background-color: @button-background-color-hover;
         }
     }
 
@@ -47,7 +44,7 @@
             width: 160px;
             height: 200px;
             margin-right: 0;
-            color: #000;
+            color: @button-text-color;
         }
         margin-right: 10px;
         margin-bottom: 10px;
