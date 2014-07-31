@@ -1,5 +1,5 @@
-":not(.darwin) > .workspace":
+".platform-win32, .platform-linux":
   "ctrl-shift-O": "recent-projects:open"
 
-".darwin > .workspace":
+".platform-darwin":
   "cmd-shift-O": "recent-projects:open"
