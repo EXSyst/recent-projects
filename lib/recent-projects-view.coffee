@@ -44,7 +44,7 @@ class RecentProjectsView extends ScrollView
                     atom.open { pathsToOpen }
                     @closeAfterOpenProject()
         @newFileButton.on 'click', =>
-            @trigger 'core:close'
+            atom.workspace.getActivePane().removeItem this
             atom.workspaceView.trigger 'application:new-file'
         if atom.project.path?
             @newFileButton.addClass 'hidden'
@@ -117,6 +117,6 @@ class RecentProjectsView extends ScrollView
 
     closeAfterOpenProject: ->
         if atom.project.path? or atom.workspaceView.getActivePane().getItems().length > 1
-            @trigger 'core:close'
+            atom.workspace.getActivePane().removeItem this
         else
             atom.close()

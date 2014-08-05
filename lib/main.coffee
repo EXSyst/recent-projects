@@ -7,6 +7,13 @@ createView = ->
     RecentProjectsView ?= require './recent-projects-view'
     new RecentProjectsView({ uri: projectsHomepageUri })
 
+destroyViews = ->
+    RecentProjectsView ?= require './recent-projects-view'
+    for pane in atom.workspace.getPanes()
+        for item in pane.getItems()
+            pane.removeItem item if item instanceof RecentProjectsView
+    undefined
+
 closeDefaultBuffer = ->
     cancelSub = false
     sub = atom.workspace.eachEditor (editor) ->
@@ -20,15 +27,17 @@ closeDefaultBuffer = ->
         sub.off()
         sub = null
 
+viewOpener = (filePath) ->
+    createView() if filePath is projectsHomepageUri
+
 module.exports =
     configDefaults:
         textOnly: false
 
     activate: ->
-        atom.workspace.registerOpener (filePath) =>
-            createView() if filePath is projectsHomepageUri
+        atom.workspace.registerOpener viewOpener
 
-        atom.workspaceView.command 'recent-projects:open', ->
+        @openCmd = atom.workspaceView.command 'recent-projects:open', ->
             atom.workspace.open projectsHomepageUri
 
         if atom.project.path?
@@ -37,3 +46,8 @@ module.exports =
         else
             atom.workspaceView.trigger 'recent-projects:open'
             closeDefaultBuffer()
+
+    deactivate: ->
+        @openCmd.off()
+        atom.workspace.unregisterOpener viewOpener
+        destroyViews()
