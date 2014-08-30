@@ -116,7 +116,10 @@ class RecentProjectsView extends ScrollView
                     entry.addClass 'icon-repo'
 
     closeAfterOpenProject: ->
-        if atom.project.path? or atom.workspaceView.getActivePane().getItems().length > 1
+        if atom.project.path? or atom.workspaceView.getActivePane().getItems().length > 1 or parseFloat(atom.getVersion()) >= 0.124
             atom.workspace.getActivePane().removeItem this
+            showTree = ->
+                atom.workspaceView.trigger "tree-view:show"
+            setTimeout showTree, 0
         else
             atom.close()
