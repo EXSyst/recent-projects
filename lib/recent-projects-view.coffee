@@ -44,7 +44,7 @@ class RecentProjectsView extends ScrollView
                     atom.open { pathsToOpen }
                     @closeAfterOpenProject()
         @newFileButton.on 'click', =>
-            atom.workspace.getActivePane().removeItem this
+            atom.workspace.getActivePaneView().removeItem this
             atom.workspaceView.trigger 'application:new-file'
         if atom.project.path?
             @newFileButton.addClass 'hidden'
@@ -116,8 +116,8 @@ class RecentProjectsView extends ScrollView
                     entry.addClass 'icon-repo'
 
     closeAfterOpenProject: ->
-        if atom.project.path? or atom.workspaceView.getActivePane().getItems().length > 1 or parseFloat(atom.getVersion()) >= 0.124
-            atom.workspace.getActivePane().removeItem this
+        if atom.project.path? or atom.workspaceView.getActivePaneView().getItems().length > 1 or parseFloat(atom.getVersion()) >= 0.124
+            atom.workspace.getActivePaneView().removeItem this
             showTree = ->
                 atom.workspaceView.trigger "tree-view:show"
             setTimeout showTree, 0
