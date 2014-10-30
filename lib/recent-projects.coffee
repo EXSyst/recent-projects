@@ -25,7 +25,12 @@ read = (callback) ->
                         callback null, data
 
 write = (data, callback) ->
-    fs.writeFile getStateFilePath(), JSON.stringify(data), { encoding: 'utf8' }, callback
+    fs.truncate getStateFilePath(), 0, (err) =>
+        if err?
+            if callback?
+                callback err
+        else
+            fs.writeFile getStateFilePath(), JSON.stringify(data), { encoding: 'utf8' }, callback
 
 alter = (fn, callback) ->
     read (err, data) ->
