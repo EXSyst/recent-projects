@@ -26,7 +26,7 @@ read = (callback) ->
 
 write = (data, callback) ->
     fs.truncate getStateFilePath(), 0, (err) =>
-        if err?
+        if err? and err.code != "ENOENT"
             if callback?
                 callback err
         else
