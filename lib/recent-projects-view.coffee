@@ -1,4 +1,4 @@
-{ScrollView, $$} = require 'atom'
+{CompositeDisposable, ScrollView, $$} = require 'atom'
 path = require 'path'
 fs = require 'fs'
 RecentProjects = null
@@ -24,28 +24,19 @@ class RecentProjectsView extends ScrollView
     @content: ->
         @div class: 'pane-item padded recent-projects-view', =>
             @div class: 'actions-bar', =>
-                @button class: 'btn btn-default icon icon-file-directory', outlet: 'openFolderButton', 'Open Folder...'
-                @button class: 'btn btn-default icon icon-file-code', outlet: 'newFileButton', 'New File'
+                @button class: 'btn btn-default icon icon-file-directory', outlet:'openFolderButton', click: 'openFolder', 'Open Folder...'
+                @button class: 'btn btn-default icon icon-file-code', outlet:'newFileButton', click: 'createNewFile', 'New File'
             @div class: 'alert alert-danger hidden', outlet: 'errorMessage'
             @ul class: 'project-list', outlet: 'projectList'
 
     initialize: ({ @uri }) ->
         super
-        @subscribe atom.config.observe 'recent-projects.textOnly', (textOnly) =>
+        @subs = new CompositeDisposable
+        @subs.add atom.config.observe 'recent-projects.textOnly', (textOnly) =>
             if textOnly
                 @projectList.addClass 'text-only'
             else
                 @projectList.removeClass 'text-only'
-        @openFolderButton.on 'click', =>
-            remote ?= require 'remote'
-            dialog ?= remote.require 'dialog'
-            dialog.showOpenDialog title: 'Open', properties: ['openDirectory', 'multiSelections', 'createDirectory'], (pathsToOpen) =>
-                if pathsToOpen?
-                    atom.open { pathsToOpen }
-                    @closeAfterOpenProject()
-        @newFileButton.on 'click', =>
-            atom.workspace.getActivePane().removeItem this
-            atom.workspaceView.trigger 'application:new-file'
         if atom.project.path?
             @newFileButton.addClass 'hidden'
         RecentProjects ?= require './recent-projects'
@@ -114,6 +105,18 @@ class RecentProjectsView extends ScrollView
                     entry.css 'background-image', ''
                     entry.addClass 'icon'
                     entry.addClass 'icon-repo'
+
+    openFolder: ->
+        remote ?= require 'remote'
+        dialog ?= remote.require 'dialog'
+        dialog.showOpenDialog title: 'Open', properties: ['openDirectory', 'multiSelections', 'createDirectory'], (pathsToOpen) =>
+            if pathsToOpen?
+                atom.open { pathsToOpen }
+                @closeAfterOpenProject()
+
+    createNewFile: ->
+        atom.workspace.getActivePane().removeItem this
+        atom.workspaceView.trigger 'application:new-file'
 
     closeAfterOpenProject: ->
         if atom.project.path? or atom.workspaceView.getActivePaneView().getItems().length > 1 or parseFloat(atom.getVersion()) >= 0.124

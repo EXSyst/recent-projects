@@ -1,3 +1,5 @@
+{CompositeDisposable} = require 'atom'
+
 RecentProjects = null
 RecentProjectsView = null
 
@@ -31,14 +33,18 @@ viewOpener = (filePath) ->
     createView() if filePath is projectsHomepageUri
 
 module.exports =
-    configDefaults:
-        textOnly: false
+    config:
+        textOnly:
+            type: 'boolean'
+            default: false
 
     activate: ->
-        atom.workspace.registerOpener viewOpener
+        @subs = new CompositeDisposable
+        @subs.add atom.workspace.addOpener viewOpener
 
-        @openCmd = atom.workspaceView.command 'recent-projects:open', ->
-            atom.workspace.open projectsHomepageUri
+        @subs.add atom.commands.add 'atom-workspace',
+            'recent-projects:open': ->
+                atom.workspace.open projectsHomepageUri
 
         if atom.project.path?
             RecentProjects ?= require './recent-projects'
@@ -48,6 +54,5 @@ module.exports =
             closeDefaultBuffer()
 
     deactivate: ->
-        @openCmd.off()
-        atom.workspace.unregisterOpener viewOpener
+        @subs?.dispose()
         destroyViews()
