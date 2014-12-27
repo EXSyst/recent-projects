@@ -31,12 +31,15 @@ class RecentProjectsView extends ScrollView
 
     initialize: ({ @uri }) ->
         super
+
         @subs = new CompositeDisposable
+        @subs.add atom.config.observe 'recent-projects.openInNewWindow', (@newWindow) =>
         @subs.add atom.config.observe 'recent-projects.textOnly', (textOnly) =>
             if textOnly
                 @projectList.addClass 'text-only'
             else
                 @projectList.removeClass 'text-only'
+
         if atom.project.path?
             @newFileButton.addClass 'hidden'
         RecentProjects ?= require './recent-projects'
@@ -79,17 +82,10 @@ class RecentProjectsView extends ScrollView
                             @div class: 'project-title', path.basename(uri)
                             @div class: 'project-url icon icon-file-directory', relativeToHomeDirectory(path.dirname(uri))
                         @button class: 'project-delete btn btn-danger icon icon-x'
-                entry.on 'click', =>
-                    atom.open
-                        pathsToOpen: [
-                            uri
-                        ]
-                    @closeAfterOpenProject()
+                entry.on 'click', @openProject.bind(this, [uri])
                 entry.find('.project-delete').on 'click', (ev) =>
                     ev.stopPropagation()
-                    RecentProjects ?= require './recent-projects'
-                    RecentProjects.remove uri, (err) =>
-                        entry.remove() unless err?
+                    @removeProject uri, entry
                 @projectList.append entry
 
     setDetails: (uri, data) ->
@@ -106,13 +102,20 @@ class RecentProjectsView extends ScrollView
                     entry.addClass 'icon'
                     entry.addClass 'icon-repo'
 
+    removeProject: (uri, entry) ->
+        RecentProjects ?= require './recent-projects'
+        RecentProjects.remove uri, (err) =>
+            entry.remove() unless err?
+
+    openProject: (pathsToOpen) ->
+        atom.open { pathsToOpen, @newWindow }
+        @closeAfterOpenProject() unless @newWindow
+
     openFolder: ->
         remote ?= require 'remote'
         dialog ?= remote.require 'dialog'
         dialog.showOpenDialog title: 'Open', properties: ['openDirectory', 'multiSelections', 'createDirectory'], (pathsToOpen) =>
-            if pathsToOpen?
-                atom.open { pathsToOpen }
-                @closeAfterOpenProject()
+            @openProject pathsToOpen if pathsToOpen?
 
     createNewFile: ->
         atom.workspace.getActivePane().removeItem this

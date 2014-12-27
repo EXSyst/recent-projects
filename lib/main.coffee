@@ -37,6 +37,10 @@ module.exports =
         textOnly:
             type: 'boolean'
             default: false
+        openInNewWindow:
+            type: 'boolean'
+            default: false
+            description: 'Projects will be opened in a new window, keeping the Recent Projects window open.'
 
     activate: ->
         @subs = new CompositeDisposable
