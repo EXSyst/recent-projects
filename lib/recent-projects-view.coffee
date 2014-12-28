@@ -91,9 +91,9 @@ class RecentProjectsView extends ScrollView
                         @div class: 'project-meta', =>
                             @div class: 'project-title', path.basename(uri)
                             @div class: 'project-url icon icon-file-directory', relativeToHomeDirectory(path.dirname(uri))
-                            @div class: 'project-branch icon icon-git-branch', branch if branch?
-                            @div class: 'project-date icon icon-clock', =>
-                                @text 'Opened '
+                            @br()
+                            @div class: 'project-meta-mini project-branch icon icon-git-branch', branch if branch?
+                            @div class: 'project-meta-mini project-date icon icon-clock', =>
                                 @time datetime: new Date(lastOpened).toUTCString(), relativeDate(lastOpened)
 
                         @button class: 'project-delete btn btn-danger icon icon-x'
