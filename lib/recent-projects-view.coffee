@@ -1,6 +1,7 @@
 {CompositeDisposable, ScrollView, $$} = require 'atom'
 path = require 'path'
 fs = require 'fs'
+relativeDate = require 'relative-date'
 RecentProjects = null
 remote = null
 dialog = null
@@ -48,7 +49,7 @@ class RecentProjectsView extends ScrollView
                 @setError err
             else
                 @setList data
-                data.forEach (uri) =>
+                data.forEach ({uri, lastOpened}) =>
                     tileUri = path.join uri, ".project-tile.png"
                     fs.exists tileUri, (exist) =>
                         if exist
@@ -74,13 +75,16 @@ class RecentProjectsView extends ScrollView
 
     setList: (data) ->
         @projectList.empty()
-        data.forEach (uri) =>
+        data.forEach ({uri, lastOpened}) =>
             unless uri == atom.project.path
                 entry = $$ ->
                     @li 'data-uri': uri, class: 'project-entry btn btn-default icon icon-repo', =>
                         @div class: 'project-meta', =>
                             @div class: 'project-title', path.basename(uri)
                             @div class: 'project-url icon icon-file-directory', relativeToHomeDirectory(path.dirname(uri))
+                            @div class: 'project-date icon icon-clock', =>
+                              @text 'Opened '
+                              @time datetime: new Date(lastOpened).toUTCString(), relativeDate(lastOpened)
                         @button class: 'project-delete btn btn-danger icon icon-x'
                 entry.on 'click', @openProject.bind(this, [uri])
                 entry.find('.project-delete').on 'click', (ev) =>

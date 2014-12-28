@@ -20,5 +20,8 @@
   },
   "homepage": "https://github.com/Exter-N/recent-projects",
   "license": "Apache-2.0",
-  "readmeFile": "README.md"
+  "readmeFile": "README.md",
+  "dependencies": {
+    "relative-date": "~>1.1.1"
+  }
 }
