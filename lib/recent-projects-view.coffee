@@ -35,11 +35,15 @@ class RecentProjectsView extends ScrollView
 
         @subs = new CompositeDisposable
         @subs.add atom.config.observe 'recent-projects.openInNewWindow', (@newWindow) =>
+
+        @subs.add atom.config.observe 'recent-projects.showGitBranch', (showGitBranch) =>
+            @projectList.toggleClass 'show-git-branch', showGitBranch
+
+        @subs.add atom.config.observe 'recent-projects.showLastOpened', (showLastOpened) =>
+            @projectList.toggleClass 'show-last-opened', showLastOpened
+
         @subs.add atom.config.observe 'recent-projects.textOnly', (textOnly) =>
-            if textOnly
-                @projectList.addClass 'text-only'
-            else
-                @projectList.removeClass 'text-only'
+            @projectList.toggleClass 'text-only', textOnly
 
         if atom.project.path?
             @newFileButton.addClass 'hidden'
@@ -77,7 +81,6 @@ class RecentProjectsView extends ScrollView
         @projectList.empty()
         data.forEach ({uri, lastOpened}) =>
             unless uri == atom.project.path
-                lastOpened = new Date(lastOpened)
                 try
                   repo = new GitRepository(uri)
                   branch = repo.getShortHead()
@@ -91,7 +94,8 @@ class RecentProjectsView extends ScrollView
                             @div class: 'project-branch icon icon-git-branch', branch if branch?
                             @div class: 'project-date icon icon-clock', =>
                                 @text 'Opened '
-                                @time datetime: lastOpened.toUTCString(), relativeDate(lastOpened)
+                                @time datetime: new Date(lastOpened).toUTCString(), relativeDate(lastOpened)
+
                         @button class: 'project-delete btn btn-danger icon icon-x'
                 entry.on 'click', @openProject.bind(this, [uri])
                 entry.find('.project-delete').on 'click', (ev) =>

@@ -41,6 +41,12 @@ module.exports =
             type: 'boolean'
             default: false
             description: 'Projects will be opened in a new window, keeping the Recent Projects window open.'
+        showGitBranch:
+            type: 'boolean'
+            default: true
+        showLastOpened:
+            type: 'boolean'
+            default: true
 
     activate: ->
         @subs = new CompositeDisposable
