@@ -19,7 +19,7 @@ read = (callback) ->
             missing = data.length
             data.forEach (project, i) ->
                 if typeof project is 'string'
-                    project = { uri: project, lastOpened: Number.MIN_SAFE_INTEGER }
+                    project = { uri: project }
                 fs.exists project.uri, (retval) ->
                     projects.push project
                     if --missing == 0
