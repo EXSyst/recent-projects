@@ -1,4 +1,4 @@
-{CompositeDisposable, ScrollView, $$} = require 'atom'
+{CompositeDisposable, GitRepository, ScrollView, $$} = require 'atom'
 path = require 'path'
 fs = require 'fs'
 relativeDate = require 'relative-date'
@@ -77,14 +77,21 @@ class RecentProjectsView extends ScrollView
         @projectList.empty()
         data.forEach ({uri, lastOpened}) =>
             unless uri == atom.project.path
+                lastOpened = new Date(lastOpened)
+                try
+                  repo = new GitRepository(uri)
+                  branch = repo.getShortHead()
+                  repo.destroy()
+
                 entry = $$ ->
                     @li 'data-uri': uri, class: 'project-entry btn btn-default icon icon-repo', =>
                         @div class: 'project-meta', =>
                             @div class: 'project-title', path.basename(uri)
                             @div class: 'project-url icon icon-file-directory', relativeToHomeDirectory(path.dirname(uri))
+                            @div class: 'project-branch icon icon-git-branch', branch if branch?
                             @div class: 'project-date icon icon-clock', =>
-                              @text 'Opened '
-                              @time datetime: new Date(lastOpened).toUTCString(), relativeDate(lastOpened)
+                                @text 'Opened '
+                                @time datetime: lastOpened.toUTCString(), relativeDate(lastOpened)
                         @button class: 'project-delete btn btn-danger icon icon-x'
                 entry.on 'click', @openProject.bind(this, [uri])
                 entry.find('.project-delete').on 'click', (ev) =>
