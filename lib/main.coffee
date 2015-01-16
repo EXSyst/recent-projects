@@ -58,7 +58,8 @@ module.exports =
 
         if atom.project.path?
             RecentProjects ?= require './recent-projects'
-            RecentProjects.add atom.project.path
+            RecentProjects.add atom.project.path,
+              devMode: atom.inDevMode()
         else
             atom.workspaceView.trigger 'recent-projects:open'
             closeDefaultBuffer()

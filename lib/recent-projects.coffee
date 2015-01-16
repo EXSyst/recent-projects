@@ -49,13 +49,17 @@ compareUri = (searchUri, {uri}) ->
     uri is searchUri
 
 module.exports =
-    add: (uri, callback) ->
-        lastOpened = Date.now()
+    add: (uri, metadata, callback) ->
+        entry = {}
+        entry[k] = v for own k, v of metadata
+        entry.uri = uri
+        entry.lastOpened = Date.now()
+
         fn = (data) ->
             pos = data.findIndex compareUri.bind(null, uri)
             if pos >= 0
                 data.splice pos, 1
-            data.unshift {uri, lastOpened}
+            data.unshift entry
             data.splice MAX_RECENT_PROJECTS
         alter fn, callback
 

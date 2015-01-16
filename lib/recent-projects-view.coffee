@@ -77,9 +77,10 @@ class RecentProjectsView extends ScrollView
             @errorMessage.addClass 'hidden'
             @projectList.removeClass 'hidden'
 
-    setList: (data) ->
+    setList: (projects) ->
         @projectList.empty()
-        data.forEach ({uri, lastOpened}) =>
+        projects.forEach (project) =>
+            {uri, lastOpened} = project
             unless uri == atom.project.path
                 try
                   repo = new GitRepository(uri)
@@ -92,13 +93,16 @@ class RecentProjectsView extends ScrollView
                             @div class: 'project-title', path.basename(uri)
                             @div class: 'project-url icon icon-file-directory', relativeToHomeDirectory(path.dirname(uri))
                             @br()
-                            @div class: 'project-meta-mini project-branch icon icon-git-branch', branch if branch?
+                            if project.devMode
+                                @div class: 'project-meta-mini project-dev-mode icon icon-color-mode', 'dev mode'
+                            if branch?
+                                @div class: 'project-meta-mini project-branch icon icon-git-branch', branch
                             if lastOpened?
                                 @div class: 'project-meta-mini project-date icon icon-clock', =>
                                     @time datetime: new Date(lastOpened).toUTCString(), relativeDate(lastOpened)
 
                         @button class: 'project-delete btn btn-danger icon icon-x'
-                entry.on 'click', @openProject.bind(this, [uri])
+                entry.on 'click', @openProject.bind(this, [uri], entry)
                 entry.find('.project-delete').on 'click', (ev) =>
                     ev.stopPropagation()
                     @removeProject uri, entry
@@ -123,8 +127,9 @@ class RecentProjectsView extends ScrollView
         RecentProjects.remove uri, (err) =>
             entry.remove() unless err?
 
-    openProject: (pathsToOpen) ->
-        atom.open { pathsToOpen, @newWindow }
+    openProject: (pathsToOpen, project = {}) ->
+        {devMode} = project
+        atom.open { pathsToOpen, @newWindow, devMode }
         @closeAfterOpenProject() unless @newWindow
 
     openFolder: ->
