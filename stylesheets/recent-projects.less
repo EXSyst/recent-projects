@@ -33,6 +33,11 @@
     }
 
     .project-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
         margin: 0;
         padding: 0;
         margin-right: -10px;
@@ -41,9 +46,11 @@
     }
 
     .project-entry {
+        flex-grow: 1;
         position: relative;
         display: inline-block;
-        width: calc(~"25% - 10px");
+        width: calc(~"33.33% - 10px");
+        min-width: 250px;
         height: 200px;
         padding: 0;
         &::before {
@@ -71,23 +78,11 @@
         text-align: left;
         padding: 2px 10px;
         white-space: nowrap;
-        text-overflow: ellipsis;
         overflow: hidden;
     }
 
     .project-title {
         font-size: 150%;
-        &::after {
-            content: '';
-            display: block;
-            height: 0;
-            width: 0;
-            overflow: hidden;
-        }
-    }
-
-    .project-title, .project-url {
-        display: inline;
     }
 
     .project-delete {
@@ -122,6 +117,7 @@
 
         .project-entry {
             width: calc(~"50% - 10px");
+            min-width: 250px;
             height: auto;
             background-image: none !important;
             &::before {
@@ -140,6 +136,31 @@
             right: 15.5px;
         }
 
+    }
+
+    .project-meta > * {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .project-meta > br {
+      display: none;
+      clear: both;
+    }
+
+    .project-meta > br ~ * {
+      float: left;
+      width: 50%;
+    }
+
+    .project-branch,
+    .project-date {
+      display : none;
+    }
+
+    .show-git-branch .project-branch,
+    .show-last-opened .project-date {
+      display : block;
     }
 
 }

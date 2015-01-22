@@ -15,14 +15,15 @@ read = (callback) ->
                 callback err
         else
             data = JSON.parse(data)
-            exist = [ ]
+            projects = [ ]
             missing = data.length
-            data.forEach (path, i) ->
-                fs.exists path, (retval) ->
-                    exist[i] = retval
+            data.forEach (project, i) ->
+                if typeof project is 'string'
+                    project = { uri: project }
+                fs.exists project.uri, (retval) ->
+                    projects.push project
                     if --missing == 0
-                        data = data.filter (dummy, i) -> exist[i]
-                        callback null, data
+                        callback null, projects
 
 write = (data, callback) ->
     fs.truncate getStateFilePath(), 0, (err) =>
@@ -44,19 +45,27 @@ alter = (fn, callback) ->
 unlink = (callback) ->
     fs.unlink getStateFilePath(), callback
 
+compareUri = (searchUri, {uri}) ->
+    uri is searchUri
+
 module.exports =
-    add: (url, callback) ->
+    add: (uri, metadata, callback) ->
+        entry = {}
+        entry[k] = v for own k, v of metadata
+        entry.uri = uri
+        entry.lastOpened = Date.now()
+
         fn = (data) ->
-            pos = data.indexOf url
+            pos = data.findIndex compareUri.bind(null, uri)
             if pos >= 0
                 data.splice pos, 1
-            data.unshift url
+            data.unshift entry
             data.splice MAX_RECENT_PROJECTS
         alter fn, callback
 
-    remove: (url, callback) ->
+    remove: (uri, callback) ->
         fn = (data) ->
-            pos = data.indexOf url
+            pos = data.findIndex compareUri.bind(null, uri)
             if pos >= 0
                 data.splice pos, 1
         alter fn, callback

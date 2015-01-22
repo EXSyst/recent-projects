@@ -1,6 +1,7 @@
-{ScrollView, $$} = require 'atom'
+{CompositeDisposable, GitRepository, ScrollView, $$} = require 'atom'
 path = require 'path'
 fs = require 'fs'
+relativeDate = require 'relative-date'
 RecentProjects = null
 remote = null
 dialog = null
@@ -24,28 +25,26 @@ class RecentProjectsView extends ScrollView
     @content: ->
         @div class: 'pane-item padded recent-projects-view', =>
             @div class: 'actions-bar', =>
-                @button class: 'btn btn-default icon icon-file-directory', outlet: 'openFolderButton', 'Open Folder...'
-                @button class: 'btn btn-default icon icon-file-code', outlet: 'newFileButton', 'New File'
+                @button class: 'btn btn-default icon icon-file-directory', outlet:'openFolderButton', click: 'openFolder', 'Open Folder...'
+                @button class: 'btn btn-default icon icon-file-code', outlet:'newFileButton', click: 'createNewFile', 'New File'
             @div class: 'alert alert-danger hidden', outlet: 'errorMessage'
             @ul class: 'project-list', outlet: 'projectList'
 
     initialize: ({ @uri }) ->
         super
-        @subscribe atom.config.observe 'recent-projects.textOnly', (textOnly) =>
-            if textOnly
-                @projectList.addClass 'text-only'
-            else
-                @projectList.removeClass 'text-only'
-        @openFolderButton.on 'click', =>
-            remote ?= require 'remote'
-            dialog ?= remote.require 'dialog'
-            dialog.showOpenDialog title: 'Open', properties: ['openDirectory', 'multiSelections', 'createDirectory'], (pathsToOpen) =>
-                if pathsToOpen?
-                    atom.open { pathsToOpen }
-                    @closeAfterOpenProject()
-        @newFileButton.on 'click', =>
-            atom.workspace.getActivePane().removeItem this
-            atom.workspaceView.trigger 'application:new-file'
+
+        @subs = new CompositeDisposable
+        @subs.add atom.config.observe 'recent-projects.openInNewWindow', (@newWindow) =>
+
+        @subs.add atom.config.observe 'recent-projects.showGitBranch', (showGitBranch) =>
+            @projectList.toggleClass 'show-git-branch', showGitBranch
+
+        @subs.add atom.config.observe 'recent-projects.showLastOpened', (showLastOpened) =>
+            @projectList.toggleClass 'show-last-opened', showLastOpened
+
+        @subs.add atom.config.observe 'recent-projects.textOnly', (textOnly) =>
+            @projectList.toggleClass 'text-only', textOnly
+
         if atom.project.path?
             @newFileButton.addClass 'hidden'
         RecentProjects ?= require './recent-projects'
@@ -54,7 +53,7 @@ class RecentProjectsView extends ScrollView
                 @setError err
             else
                 @setList data
-                data.forEach (uri) =>
+                data.forEach ({uri, lastOpened}) =>
                     tileUri = path.join uri, ".project-tile.png"
                     fs.exists tileUri, (exist) =>
                         if exist
@@ -78,27 +77,35 @@ class RecentProjectsView extends ScrollView
             @errorMessage.addClass 'hidden'
             @projectList.removeClass 'hidden'
 
-    setList: (data) ->
+    setList: (projects) ->
         @projectList.empty()
-        data.forEach (uri) =>
+        projects.forEach (project) =>
+            {uri, lastOpened} = project
             unless uri == atom.project.path
+                try
+                  repo = new GitRepository(uri)
+                  branch = repo.getShortHead()
+                  repo.destroy()
+
                 entry = $$ ->
                     @li 'data-uri': uri, class: 'project-entry btn btn-default icon icon-repo', =>
                         @div class: 'project-meta', =>
                             @div class: 'project-title', path.basename(uri)
                             @div class: 'project-url icon icon-file-directory', relativeToHomeDirectory(path.dirname(uri))
+                            @br()
+                            if project.devMode
+                                @div class: 'project-meta-mini project-dev-mode icon icon-color-mode', 'dev mode'
+                            if branch?
+                                @div class: 'project-meta-mini project-branch icon icon-git-branch', branch
+                            if lastOpened?
+                                @div class: 'project-meta-mini project-date icon icon-clock', =>
+                                    @time datetime: new Date(lastOpened).toUTCString(), relativeDate(lastOpened)
+
                         @button class: 'project-delete btn btn-danger icon icon-x'
-                entry.on 'click', =>
-                    atom.open
-                        pathsToOpen: [
-                            uri
-                        ]
-                    @closeAfterOpenProject()
+                entry.on 'click', @openProject.bind(this, [uri], entry)
                 entry.find('.project-delete').on 'click', (ev) =>
                     ev.stopPropagation()
-                    RecentProjects ?= require './recent-projects'
-                    RecentProjects.remove uri, (err) =>
-                        entry.remove() unless err?
+                    @removeProject uri, entry
                 @projectList.append entry
 
     setDetails: (uri, data) ->
@@ -114,6 +121,26 @@ class RecentProjectsView extends ScrollView
                     entry.css 'background-image', ''
                     entry.addClass 'icon'
                     entry.addClass 'icon-repo'
+
+    removeProject: (uri, entry) ->
+        RecentProjects ?= require './recent-projects'
+        RecentProjects.remove uri, (err) =>
+            entry.remove() unless err?
+
+    openProject: (pathsToOpen, project = {}) ->
+        {devMode} = project
+        atom.open { pathsToOpen, @newWindow, devMode }
+        @closeAfterOpenProject() unless @newWindow
+
+    openFolder: ->
+        remote ?= require 'remote'
+        dialog ?= remote.require 'dialog'
+        dialog.showOpenDialog title: 'Open', properties: ['openDirectory', 'multiSelections', 'createDirectory'], (pathsToOpen) =>
+            @openProject pathsToOpen if pathsToOpen?
+
+    createNewFile: ->
+        atom.workspace.getActivePane().removeItem this
+        atom.workspaceView.trigger 'application:new-file'
 
     closeAfterOpenProject: ->
         if atom.project.path? or atom.workspaceView.getActivePaneView().getItems().length > 1 or parseFloat(atom.getVersion()) >= 0.124
