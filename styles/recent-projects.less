@@ -42,6 +42,7 @@
         padding: 0;
         margin-right: -10px;
         height: calc(~"100% - 37px");
+        min-height: 200px;
         overflow-y: auto;
     }
 
@@ -85,19 +86,27 @@
         font-size: 150%;
     }
 
-    .project-delete {
+    .project-delete, .project-star {
         width: 27px;
         position: absolute;
-        right: 10px;
         top: 10px;
         padding: 0;
         display: none;
         &::before {
             margin-right: 0;
         }
+
     }
 
-    .project-entry:hover .project-delete {
+    .project-delete {
+        right: 10px;
+    }
+
+    .project-star {
+        right: 45px;
+    }
+
+    .project-entry:hover .project-delete, .project-entry:hover .project-star {
         display: block;
     }
 
