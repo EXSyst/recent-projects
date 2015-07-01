@@ -5,20 +5,19 @@
   "description": "Quick access to your recently opened projects",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Exter-N/recent-projects"
+    "url": "https://github.com/EXSyst/recent-projects"
   },
   "engines": {
     "atom": "*"
   },
   "author": {
-    "name": "Exter-N",
-    "email": "exter-n@exter-n.fr",
-    "url": "http://exter-n.fr/"
+    "name": "EXSyst",
+    "url": "https://github.com/EXSyst"
   },
   "bugs": {
-    "url": "https://github.com/Exter-N/recent-projects/issues"
+    "url": "https://github.com/EXSyst/recent-projects/issues"
   },
-  "homepage": "https://github.com/Exter-N/recent-projects",
+  "homepage": "https://github.com/EXSyst/recent-projects",
   "license": "Apache-2.0",
   "readmeFile": "README.md",
   "dependencies": {
