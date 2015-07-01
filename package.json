@@ -22,6 +22,7 @@
   "license": "Apache-2.0",
   "readmeFile": "README.md",
   "dependencies": {
-    "relative-date": "~>1.1.1"
+    "relative-date": "~>1.1.1",
+    "atom-space-pen-views": "^2.0.3"
   }
 }

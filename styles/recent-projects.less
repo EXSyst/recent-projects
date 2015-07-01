@@ -1,0 +1,166 @@
+// Default values for all the variables used below
+// The imports should override most of them
+@text-color: #333;
+@button-background-color: #fff;
+@button-background-color-hover: #ddd;
+@button-border-color: #ccc;
+@button-text-color: @text-color;
+
+@import "octicon-mixins";
+@import "ui-variables";
+
+.recent-projects-view {
+
+    .actions-bar {
+        text-align: right;
+        height: 27px;
+        margin-bottom: 10px;
+        > * {
+            margin-left: 10px;
+        }
+    }
+
+    .btn-default,
+    .btn-group > .btn-default {
+        background-color: @button-background-color;
+        color: @button-text-color;
+        border: 1px solid @button-border-color;
+
+        &:hover {
+            color: @button-text-color;
+            background-color: @button-background-color-hover;
+        }
+    }
+
+    .project-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        margin: 0;
+        padding: 0;
+        margin-right: -10px;
+        height: calc(~"100% - 37px");
+        overflow-y: auto;
+    }
+
+    .project-entry {
+        flex-grow: 1;
+        position: relative;
+        display: inline-block;
+        width: calc(~"33.33% - 10px");
+        min-width: 250px;
+        height: 200px;
+        padding: 0;
+        &::before {
+            line-height: 200px;
+            font-size: 160px;
+            width: 160px;
+            height: 200px;
+            margin-right: 0;
+            color: @button-text-color;
+        }
+        margin-right: 10px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .project-meta {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: white;
+        background: rgba(0, 0, 0, 0.7);
+        text-align: left;
+        padding: 2px 10px;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .project-title {
+        font-size: 150%;
+    }
+
+    .project-delete {
+        width: 27px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        padding: 0;
+        display: none;
+        &::before {
+            margin-right: 0;
+        }
+    }
+
+    .project-entry:hover .project-delete {
+        display: block;
+    }
+
+    .btn-danger {
+        color: #FFF;
+        background: #D9534F;
+        border-color: #D43F3A;
+    }
+
+    .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active {
+        color: #FFF;
+        background: #C9302C;
+        border-color: #AC2925;
+    }
+
+    .project-list.text-only {
+
+        .project-entry {
+            width: calc(~"50% - 10px");
+            min-width: 250px;
+            height: auto;
+            background-image: none !important;
+            &::before {
+                content: none;
+            }
+        }
+
+        .project-meta {
+            position: static;
+            background: transparent;
+            color: inherit;
+        }
+
+        .project-delete {
+            top: calc(~"50% - 13.5px");
+            right: 15.5px;
+        }
+
+    }
+
+    .project-meta > * {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .project-meta > br {
+      display: none;
+      clear: both;
+    }
+
+    .project-meta > br ~ * {
+      float: left;
+      width: 50%;
+    }
+
+    .project-branch,
+    .project-date {
+      display : none;
+    }
+
+    .show-git-branch .project-branch,
+    .show-last-opened .project-date {
+      display : block;
+    }
+
+}
