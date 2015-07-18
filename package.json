@@ -8,7 +8,7 @@
     "url": "https://github.com/EXSyst/recent-projects"
   },
   "engines": {
-    "atom": ">=0.174.0 <2.0.0"
+    "atom": ">=0.180.0 <2.0.0"
   },
   "author": {
     "name": "Exter-N",
