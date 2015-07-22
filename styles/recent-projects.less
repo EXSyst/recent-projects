@@ -5,12 +5,9 @@
 @button-background-color-hover: #ddd;
 @button-border-color: #ccc;
 @button-text-color: @text-color;
-
 @import "octicon-mixins";
 @import "ui-variables";
-
 .recent-projects-view {
-
     .actions-bar {
         text-align: right;
         height: 27px;
@@ -19,19 +16,16 @@
             margin-left: 10px;
         }
     }
-
     .btn-default,
     .btn-group > .btn-default {
         background-color: @button-background-color;
         color: @button-text-color;
         border: 1px solid @button-border-color;
-
         &:hover {
             color: @button-text-color;
             background-color: @button-background-color-hover;
         }
     }
-
     .project-list {
         display: flex;
         flex-direction: row;
@@ -45,7 +39,6 @@
         min-height: 200px;
         overflow-y: auto;
     }
-
     .project-entry {
         flex-grow: 1;
         position: relative;
@@ -68,7 +61,6 @@
         background-size: cover;
         background-position: center;
     }
-
     .project-meta {
         position: absolute;
         left: 0;
@@ -81,12 +73,11 @@
         white-space: nowrap;
         overflow: hidden;
     }
-
     .project-title {
         font-size: 150%;
     }
-
-    .project-delete, .project-star {
+    .project-delete,
+    .project-star {
         width: 27px;
         position: absolute;
         top: 10px;
@@ -95,35 +86,31 @@
         &::before {
             margin-right: 0;
         }
-
     }
-
     .project-delete {
         right: 10px;
     }
-
     .project-star {
         right: 45px;
     }
-
-    .project-entry:hover .project-delete, .project-entry:hover .project-star {
+    .project-entry:hover .project-delete,
+    .project-entry:hover .project-star {
         display: block;
     }
-
     .btn-danger {
-        color: #FFF;
-        background: #D9534F;
-        border-color: #D43F3A;
+        color: #fff;
+        background: #d9534f;
+        border-color: #d43f3a;
     }
-
-    .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active {
-        color: #FFF;
-        background: #C9302C;
-        border-color: #AC2925;
+    .btn-danger:hover,
+    .btn-danger:focus,
+    .btn-danger:active,
+    .btn-danger.active {
+        color: #fff;
+        background: #c9302c;
+        border-color: #ac2925;
     }
-
     .project-list.text-only {
-
         .project-entry {
             width: calc(~"50% - 10px");
             min-width: 250px;
@@ -133,43 +120,38 @@
                 content: none;
             }
         }
-
         .project-meta {
             position: static;
             background: transparent;
             color: inherit;
         }
-
         .project-delete {
             top: calc(~"50% - 13.5px");
             right: 15.5px;
         }
-
     }
-
     .project-meta > * {
-      overflow: hidden;
-      text-overflow: ellipsis;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-
     .project-meta > br {
-      display: none;
-      clear: both;
+        display: none;
+        clear: both;
     }
-
     .project-meta > br ~ * {
-      float: left;
-      width: 50%;
+        float: left;
+        width: 50%;
     }
-
     .project-branch,
-    .project-date {
-      display : none;
+    .project-date,
+    .project-extra-paths,
+    .project-ftp-url {
+        display: none;
     }
-
     .show-git-branch .project-branch,
-    .show-last-opened .project-date {
-      display : block;
+    .show-last-opened .project-date,
+    .show-extra-paths .project-extra-paths,
+    .show-ftp-url .project-ftp-url {
+        display: block;
     }
-
 }
