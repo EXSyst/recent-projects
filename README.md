@@ -18,7 +18,7 @@ On Atom's startup, the package will list your 20 most recently opened projects.
 
 It will then allow you to open one of them with a single click, instead of going through the menus and the directory explorer.
 
-You can open it at any time using the command `recent-projects:open` (`ctrl-shift-O` on Windows and Linux, `cmd-shift-O` on Mac OS X)
+You can open it at any time using the command `recent-projects:open` (`ctrl-shift-O` on Windows and Linux, `cmd-shift-O` on Mac OS X) and navigate in your projects with your arrow keys.
 
 ## Customization
 You can put a PNG image named `.project-tile.png` at a project's root, and the package will display it instead of the default icon.
