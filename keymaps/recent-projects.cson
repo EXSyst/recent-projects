@@ -12,5 +12,8 @@
     "right": "recent-projects:move-right"
     "tab": "recent-projects:move-right"
 
+    "k": "core:move-up"
+    "j": "core:move-down"
+
     "enter": "recent-projects:open-selected"
     "delete": "recent-projects:remove-selected"

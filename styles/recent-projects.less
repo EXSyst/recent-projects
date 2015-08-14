@@ -38,28 +38,31 @@
         height: calc(~"100% - 37px");
         min-height: 200px;
         overflow-y: auto;
-    }
-    .project-entry {
-        flex-grow: 1;
-        position: relative;
-        display: inline-block;
-        width: calc(~"33.33% - 10px");
-        min-width: 250px;
-        height: 200px;
-        padding: 0;
-        &::before {
-            line-height: 200px;
-            font-size: 160px;
-            width: 160px;
-            height: 200px;
-            margin-right: 0;
-            color: @button-text-color;
+        li {
+            flex-grow: 1;
+            position: relative;
+            display: inline-block;
+            width: calc(~"33.33% - 10px");
+            min-width: 250px;
+            padding: 0;
+            margin-right: 10px;
+            margin-bottom: 10px;
+
+            &.project-entry {
+                height: 200px;
+                &::before {
+                    line-height: 200px;
+                    font-size: 160px;
+                    width: 160px;
+                    height: 200px;
+                    margin-right: 0;
+                    color: @button-text-color;
+                }
+                overflow: hidden;
+                background-size: cover;
+                background-position: center;
+            }
         }
-        margin-right: 10px;
-        margin-bottom: 10px;
-        overflow: hidden;
-        background-size: cover;
-        background-position: center;
     }
     .project-meta {
         position: absolute;
