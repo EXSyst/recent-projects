@@ -93,9 +93,10 @@
     .project-star {
         right: 45px;
     }
-    .project-entry:hover .project-delete,
-    .project-entry:hover .project-star {
-        display: block;
+    .project-entry:hover, .project-entry.selected {
+        .project-delete, .project-star {
+            display: block;
+        }
     }
     .btn-danger {
         color: #fff;

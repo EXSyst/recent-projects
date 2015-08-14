@@ -1,5 +1,16 @@
 ".platform-win32, .platform-linux":
-  "ctrl-shift-O": "recent-projects:open"
+    "ctrl-shift-O": "recent-projects:open"
 
 ".platform-darwin":
-  "cmd-shift-O": "recent-projects:open"
+    "cmd-shift-O": "recent-projects:open"
+
+".recent-projects-view":
+    "h": "recent-projects:move-left"
+    "left": "recent-projects:move-left"
+
+    "l": "recent-projects:move-right"
+    "right": "recent-projects:move-right"
+    "tab": "recent-projects:move-right"
+
+    "enter": "recent-projects:open-selected"
+    "delete": "recent-projects:remove-selected"
