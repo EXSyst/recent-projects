@@ -1,6 +1,6 @@
 {
   "name": "recent-projects",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "main": "./lib/main",
   "description": "Quick access to your recently opened projects",
   "repository": {
