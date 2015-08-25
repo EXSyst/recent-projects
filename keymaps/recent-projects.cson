@@ -15,5 +15,7 @@
     "k": "core:move-up"
     "j": "core:move-down"
 
+    # Apply this only when a project tile is focused
     "enter": "recent-projects:open-selected"
+    "s": "recent-projects:star-selected"
     "delete": "recent-projects:remove-selected"
