@@ -15,18 +15,15 @@
     "email": "exter-n@exter-n.fr",
     "url": "http://exter-n.fr/"
   },
-  "contributors": [
-    {
-      "name": "Ener-Getick",
-      "email": "egetick@gmail.com",
-      "url": "https://github.com/Ener-Getick"
-    },
-    {
-      "name": "erisdev",
-      "email": "eris.discord@gmail.com",
-      "url": "http://erisdev.github.io/"
-    }
-  ],
+  "contributors": [{
+    "name": "Ener-Getick",
+    "email": "egetick@gmail.com",
+    "url": "https://github.com/Ener-Getick"
+  }, {
+    "name": "erisdev",
+    "email": "eris.discord@gmail.com",
+    "url": "http://erisdev.github.io/"
+  }],
   "bugs": {
     "url": "https://github.com/EXSyst/recent-projects/issues"
   },
