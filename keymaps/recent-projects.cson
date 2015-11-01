@@ -1,21 +1,21 @@
 ".platform-win32, .platform-linux":
-  "ctrl-shift-O": "recent-projects:open"
+	"ctrl-shift-O": "recent-projects:open"
 
 ".platform-darwin":
-  "cmd-shift-O": "recent-projects:open"
+	"cmd-shift-O": "recent-projects:open"
 
 ".recent-projects-view":
-  "h": "recent-projects:move-left"
-  "left": "recent-projects:move-left"
+	"h": "recent-projects:move-left"
+	"left": "recent-projects:move-left"
 
-  "l": "recent-projects:move-right"
-  "right": "recent-projects:move-right"
-  "tab": "recent-projects:move-right"
+	"l": "recent-projects:move-right"
+	"right": "recent-projects:move-right"
+	"tab": "recent-projects:move-right"
 
-  "k": "core:move-up"
-  "j": "core:move-down"
+	"k": "core:move-up"
+	"j": "core:move-down"
 
-  # Apply this only when a project tile is focused
-  "enter": "recent-projects:open-selected"
-  "s": "recent-projects:star-selected"
-  "delete": "recent-projects:remove-selected"
+	# Apply this only when a project tile is focused
+	"enter": "recent-projects:open-selected"
+	"s": "recent-projects:star-selected"
+	"delete": "recent-projects:remove-selected"

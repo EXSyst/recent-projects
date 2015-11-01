@@ -1,16 +1,16 @@
 'menu': [
-  {
-    'label': 'Packages'
-    'submenu': [
-      {
-        'label': 'Recent Projects'
-        'submenu': [
-          {
-            'label': 'Open'
-            'command': 'recent-projects:open'
-          }
-        ]
-      }
-    ]
-  }
+	{
+		'label': 'Packages'
+		'submenu': [
+			{
+				'label': 'Recent Projects'
+				'submenu': [
+					{
+						'label': 'Open'
+						'command': 'recent-projects:open'
+					}
+				]
+			}
+		]
+	}
 ]
