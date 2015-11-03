@@ -10,7 +10,6 @@ var atomRef = require('atom'),
 var path = require('path');
 var relativeDate = require('relative-date');
 
-var RecentProjectsView;
 var RecentProjectsManager = require('./recent-projects-manager');
 var Project = require('./project');
 var remote = null;
@@ -35,8 +34,9 @@ var relativeToHomeDirectory = function(uri) {
 	}
 };
 
-module.exports = class RecentProjectsView extends ScrollView {
-	content() {
+var RecentProjectsView;
+module.exports = RecentProjectsView = class RecentProjectsView extends ScrollView {
+	static content() {
 		var _this = this;
 		return this.div({
 			"class": 'recent-projects-view pane-item padded',
