@@ -36,10 +36,6 @@ var relativeToHomeDirectory = function(uri) {
 };
 
 module.exports = class RecentProjectsView extends ScrollView {
-	constructor(...args) {
-		super(...args);
-	}
-
 	content() {
 		var _this = this;
 		return this.div({
