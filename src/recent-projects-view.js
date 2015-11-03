@@ -71,7 +71,7 @@ module.exports = RecentProjectsView = class RecentProjectsView extends ScrollVie
 		this.uri = arg.uri;
 		this.selectedEntry = null;
 
-		RecentProjectsView.__super__.initialize.apply(this, arguments);
+		super.initialize.apply(this, arguments);
 		if (atom.project.getPaths().length != 0) {
 			this.newFileButton.addClass('hidden');
 		}
@@ -126,6 +126,7 @@ module.exports = RecentProjectsView = class RecentProjectsView extends ScrollVie
 	}
 
 	getRatio() {
+		var ref;
 		var first = (ref = this.projectList.find('.project-entry').first()) != null ? ref : null;
 		if (first == null) {
 			return;
