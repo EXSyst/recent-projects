@@ -374,8 +374,8 @@ module.exports = RecentProjectsView = class RecentProjectsView extends ScrollVie
 
 				// Set the customized tile asynchronously
 				(async function() {
-					var tile = project.tile;
-					if (tile !== null) {
+					let tile = await project.tile;
+					if (tile) {
 						entry.css('background-image', 'url(file://' + tile.split(path.sep).join('/') + ')');
 						entry.removeClass('icon');
 						entry.removeClass('icon-repo');
