@@ -10,7 +10,6 @@ var atomRef = require('atom'),
 var path = require('path');
 var relativeDate = require('relative-date');
 
-var RecentProjectsView;
 var RecentProjectsManager = require('./recent-projects-manager');
 var Project = require('./project');
 var remote = null;
@@ -35,8 +34,9 @@ var relativeToHomeDirectory = function(uri) {
 	}
 };
 
-module.exports = class RecentProjectsView extends ScrollView {
-	content() {
+var RecentProjectsView;
+module.exports = RecentProjectsView = class RecentProjectsView extends ScrollView {
+	static content() {
 		var _this = this;
 		return this.div({
 			"class": 'recent-projects-view pane-item padded',
@@ -71,7 +71,7 @@ module.exports = class RecentProjectsView extends ScrollView {
 		this.uri = arg.uri;
 		this.selectedEntry = null;
 
-		RecentProjectsView.__super__.initialize.apply(this, arguments);
+		super.initialize.apply(this, arguments);
 		if (atom.project.getPaths().length != 0) {
 			this.newFileButton.addClass('hidden');
 		}
@@ -126,6 +126,7 @@ module.exports = class RecentProjectsView extends ScrollView {
 	}
 
 	getRatio() {
+		var ref;
 		var first = (ref = this.projectList.find('.project-entry').first()) != null ? ref : null;
 		if (first == null) {
 			return;
