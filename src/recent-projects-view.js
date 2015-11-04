@@ -34,8 +34,7 @@ var relativeToHomeDirectory = function(uri) {
 	}
 };
 
-var RecentProjectsView;
-module.exports = RecentProjectsView = class RecentProjectsView extends ScrollView {
+module.exports = class RecentProjectsView extends ScrollView {
 	static content() {
 		var _this = this;
 		return this.div({
@@ -376,7 +375,7 @@ module.exports = RecentProjectsView = class RecentProjectsView extends ScrollVie
 				(async function() {
 					let tile = await project.tile;
 					if (tile) {
-						entry.css('background-image', 'url(file://' + tile.split(path.sep).join('/') + ')');
+						entry.css('background-image', 'url(\'file://' + tile.split(path.sep).join('/') + '\')');
 						entry.removeClass('icon');
 						entry.removeClass('icon-repo');
 					}
