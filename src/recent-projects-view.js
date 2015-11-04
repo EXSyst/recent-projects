@@ -375,7 +375,7 @@ module.exports = class RecentProjectsView extends ScrollView {
 				(async function() {
 					let tile = await project.tile;
 					if (tile) {
-						entry.css('background-image', 'url(\'file://' + tile.split(path.sep).join('/') + '\')');
+						entry.css('background-image', 'url(file://' + encodeURI(tile.split(path.sep).join('/')) + ')');
 						entry.removeClass('icon');
 						entry.removeClass('icon-repo');
 					}
