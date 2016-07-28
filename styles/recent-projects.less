@@ -61,7 +61,7 @@
     }
     .project-entry.stared {
         .project-star {
-            color: yellow;
+            color: #F19B2C;
         }
     }
     .project-meta {
@@ -80,7 +80,8 @@
         font-size: 150%;
     }
     .project-delete,
-    .project-star {
+    .project-star,
+    .project-origin {
         width: 27px;
         position: absolute;
         top: 10px;
@@ -96,10 +97,14 @@
     .project-star {
         right: 45px;
     }
+    .project-origin {
+        right: 80px;
+    }
     .project-entry:hover,
     .project-entry.selected {
         .project-delete,
-        .project-star {
+        .project-star,
+        .project-origin {
             display: block;
         }
     }
