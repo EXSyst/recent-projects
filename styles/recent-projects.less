@@ -8,8 +8,15 @@
 @import "octicon-mixins";
 @import "ui-variables";
 .recent-projects-view {
+    padding: @component-padding * 1.5;
+    padding-bottom: @component-padding * 1.5 - 10;
+    h1 {
+        font-size: 2em;
+        margin: 0 0 .5em 0;
+        color: @text-color-highlight;
+    }
     .actions-bar {
-        text-align: right;
+        float: right;
         height: 27px;
         margin-bottom: 10px;
         > * {
@@ -27,6 +34,7 @@
         }
     }
     .project-list {
+        clear: both;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
